@@ -3,6 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+
+  "overrides": {
+    "@exodus/bytes": "4.0.0"
+  },
+
   "scripts": {
     "dev": "vite",
     "test": "vitest",
@@ -10,10 +15,12 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+
   "dependencies": {
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
+
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@testing-library/jest-dom": "^6.9.1",
