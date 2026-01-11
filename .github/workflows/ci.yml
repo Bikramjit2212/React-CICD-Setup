@@ -23,3 +23,6 @@ jobs:
 
             - name: "Install Dependency"
               run: npm install
+
+            - name: "List Directories"
+              run: ls
