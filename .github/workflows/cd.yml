@@ -5,6 +5,8 @@ on:
         workflows: ["Sample CI Pipeline / Workflow"]
         types:
             - completed
+    workflow_dispatch: #for manually triggering the dispatch
+
 jobs:
     deploy:
         runs-on: ubuntu-latest
@@ -29,4 +31,6 @@ jobs:
 
             - name: "Deploy to Vercel"
               run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm --name=cicd_project
+
+            #   when confused about the set of configurations done, just checkout the action-details & it will tell why the run-id or github-token etc. has been used
 
