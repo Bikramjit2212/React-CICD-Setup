@@ -1,0 +1,17 @@
+name: Sample CI Pipeline / Workflow
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: "Setup Nodejs"
+              uses: actions/setup-node@v6
+              with:
+                node-version: "21" #setup nodejs in runner machine
+                
