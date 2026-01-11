@@ -15,3 +15,5 @@ jobs:
               with:
                 node-version: "21" #setup nodejs in runner machine
                 
+            - name: "Check Node Version"
+              run: node --version
