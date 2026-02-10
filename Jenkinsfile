@@ -1,8 +1,10 @@
 pipeline {
     agent any
+
     options {
         skipDefaultCheckout(true) // We will manual checkout or use clean checkout
     }
+    
     stages {
         stage('Cleanup Code') {
             steps {
@@ -15,6 +17,7 @@ pipeline {
                 checkout scm // Now we download the code AFTER cleaning
             }
         }
+    }    
 
     stages {
         stage('Build'){
@@ -29,9 +32,8 @@ pipeline {
             }
 
             steps {
-                
-                //running shell script
-                    sh '''
+                    //running shell script
+                 sh '''
                         echo "Current User: $(whoami)"
                         node --version
                         npm --version
@@ -48,7 +50,7 @@ pipeline {
                         
                         ls -l
                     '''
-                }
+            
             }
         }
     }
