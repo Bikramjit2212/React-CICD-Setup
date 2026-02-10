@@ -13,10 +13,11 @@ pipeline {
             }
 
             steps {
-                step('clean up workspace'){
+                
+                //cleaning workspace
                     cleanWs()
-                }
-                step('Build Project'){
+                
+                //running shell script
                     sh '''
                         echo "Current User: $(whoami)"
                         node --version
@@ -34,7 +35,6 @@ pipeline {
                         
                         ls -l
                     '''
-                }
             
             }
         }
