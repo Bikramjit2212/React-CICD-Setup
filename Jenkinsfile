@@ -8,28 +8,34 @@ pipeline {
                     reuseNode true
                     // Running as root prevents the EACCES permission errors 
                     // when npm tries to create the /.npm cache directory
-                    args '-u root'
+                    args '-u root' //so that it uses as the root user
                 }
             }
 
             steps {
-                sh '''
-                    echo "Current User: $(whoami)"
-                    node --version
-                    npm --version
-                    
-                    # Clean previous builds if they exist to avoid conflicts
-                    rm -rf node_modules dist
-                    
-                    # Install dependencies
-                    # --legacy-peer-deps handles the React 18/19 version conflicts seen in your logs
-                    npm install --legacy-peer-deps
-                    
-                    # Run the build
-                    npm run build
-                    
-                    ls -l
-                '''
+                step('clean up workspace'){
+                    cleanWs()
+                }
+                step('Build Project'){
+                    sh '''
+                        echo "Current User: $(whoami)"
+                        node --version
+                        npm --version
+                        
+                        # Clean previous builds if they exist to avoid conflicts
+                        rm -rf node_modules dist
+                        
+                        # Install dependencies
+                        # --legacy-peer-deps handles the React 18/19 version conflicts seen in your logs
+                        npm install --legacy-peer-deps
+                        
+                        # Run the build
+                        npm run build
+                        
+                        ls -l
+                    '''
+                }
+            
             }
         }
     }
