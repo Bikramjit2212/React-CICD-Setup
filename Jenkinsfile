@@ -1,11 +1,27 @@
 pipeline {
     agent any
+    options {
+        skipDefaultCheckout(true) // We will manual checkout or use clean checkout
+    }
+    stages {
+        stage('Cleanup Code') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Checkout Using SCM'){
+            steps{
+                checkout scm // Now we download the code AFTER cleaning
+            }
+        }
+
     stages {
         stage('Build'){
             agent {
                 docker {
                     image 'node:18-alpine'
-                    reuseNode true
+                    reuseNode true //reuse node for next steps
                     // Running as root prevents the EACCES permission errors 
                     // when npm tries to create the /.npm cache directory
                     args '-u root' //so that it uses as the root user
@@ -13,9 +29,6 @@ pipeline {
             }
 
             steps {
-                
-                //cleaning workspace
-                    cleanWs()
                 
                 //running shell script
                     sh '''
@@ -35,7 +48,7 @@ pipeline {
                         
                         ls -l
                     '''
-            
+                }
             }
         }
     }
