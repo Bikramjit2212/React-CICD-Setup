@@ -19,11 +19,12 @@ pipeline {
         stage('Build'){
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'node:22.11.0-alpine3.20'
+                    args '-u root' //so that it uses as the root user
                     reuseNode true //reuse node for next steps
                     // Running as root prevents the EACCES permission errors 
                     // when npm tries to create the /.npm cache directory
-                    args '-u root' //so that it uses as the root user
+                    
                 }
             }
 
@@ -38,8 +39,7 @@ pipeline {
                     rm -rf node_modules dist
                     
                     # Install dependencies
-                    # --legacy-peer-deps handles the React 18/19 version conflicts seen in your logs
-                    npm install --legacy-peer-deps
+                    npm install 
                     
                     # Run the build
                     npm run build
@@ -50,14 +50,15 @@ pipeline {
         }
 
         stage('Test'){
-            agent{
-                docker{
-                    image 'node:18-alpine'
-                    reuseNode true
+            agent {
+                docker {
+                    image 'node:22.11.0-alpine3.20'
                     args '-u root'
+                    reuseNode true
+                    
                 }
             }
-            steps{
+            steps {
                 sh'''
                     npm run test
                 '''
