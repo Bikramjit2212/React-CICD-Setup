@@ -78,8 +78,9 @@ pipeline {
                 }
             }
             steps {
+                //install vercel as global dependency
                 sh '''
-                    npm install -g vercel //install vercel as global dependency
+                    npm install -g vercel 
                     echo $MY_VAR
                 '''
             }
