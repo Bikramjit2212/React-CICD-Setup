@@ -23,7 +23,10 @@ pipeline {
 
         stage('Take Approval') {
             steps{
-                input 'should We deploy?'
+                //if the code is not approved in 1 min the code will not proceed to build stage
+                timeout(time:1, unit: 'MINUTES') {
+                    input message: 'Do you want to proceed?', ok: 'Proceed'
+                }
             }
         }
 
