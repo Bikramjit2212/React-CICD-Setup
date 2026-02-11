@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         MY_VAR = 'my value'
+        VERCEL_TOKEN = credentials('VERCEL_TOKEN')
     }
     options {
         skipDefaultCheckout(true) // We will manual checkout or use clean checkout so skip the default checkout
@@ -82,6 +83,7 @@ pipeline {
                 sh '''
                     npm install -g vercel 
                     echo $MY_VAR
+                    vercel --prod --token=$VERCEL_TOKEN --confirm --name=cicd_project
                 '''
             }
         }
