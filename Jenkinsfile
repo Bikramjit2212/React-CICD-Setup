@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    environments {
+    environment {
         MY_VAR = 'my value'
     }
     options {
