@@ -1,7 +1,11 @@
 pipeline {
     agent any
+
+    environments {
+        MY_VAR = 'my value'
+    }
     options {
-        skipDefaultCheckout(true) // We will manual checkout or use clean checkout
+        skipDefaultCheckout(true) // We will manual checkout or use clean checkout so skip the default checkout
     }
     stages {
         stage('Cleanup Code') {
@@ -23,8 +27,7 @@ pipeline {
                     args '-u root' //so that it uses as the root user
                     reuseNode true //reuse node for next steps
                     // Running as root prevents the EACCES permission errors 
-                    // when npm tries to create the /.npm cache directory
-                    
+                    // when npm tries to create the /.npm cache directory 
                 }
             }
 
@@ -62,6 +65,22 @@ pipeline {
                 sh'''
                     npm run test
                     test -f dist/index.html
+                '''
+            }
+        }
+
+        stage('Deploy'){
+            agent {
+                docker {
+                    image 'node:22.11.0-alpine3.20'
+                    args '-u root'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    npm install -g vercel //install vercel as global dependency
+                    echo $MY_VAR
                 '''
             }
         }
