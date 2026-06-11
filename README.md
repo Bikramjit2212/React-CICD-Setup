@@ -1,171 +1,459 @@
-# React CI/CD Setup
+# 🚀 React CI/CD Setup
 
-A hands-on DevOps project demonstrating the implementation of a **Continuous Integration and Continuous Delivery (CI/CD) pipeline** for a React application using Jenkins and GitHub Actions.
+A production-oriented CI/CD implementation for a React application demonstrating modern DevOps practices using **GitHub Actions**, **Jenkins**, **Docker**, **Vitest**, and **Vercel**.
 
-This project was developed to gain practical experience in automating software delivery workflows, integrating code quality checks, and understanding modern DevOps practices.
-
----
-
-## Project Overview
-
-Modern software development relies heavily on CI/CD pipelines to ensure faster, reliable, and repeatable deployments. In this project, a React application built with Vite is integrated with automated workflows to streamline the software delivery process.
-
-The pipeline automates various stages of the development lifecycle, including code integration, testing, build validation, approval gates, and deployment readiness.
+> ⚠️ The React application itself is intentionally simple. The primary objective of this repository is to showcase end-to-end CI/CD automation and deployment strategies for frontend applications.
 
 ---
 
-## Key Features
+## 📌 Project Overview
 
-* Automated CI/CD pipeline implementation.
-* React application built using Vite.
-* Jenkins pipeline integration using Jenkinsfile.
-* GitHub Actions workflow automation.
-* Automated build execution.
-* Manual approval stage before deployment.
-* Time-based approval window implementation.
-* Dependency management using npm.
-* Code quality validation using ESLint.
-* Demonstrates modern DevOps practices.
+This project demonstrates how a React application can move from code commit to production deployment through automated pipelines.
 
----
+The repository implements multiple CI/CD approaches:
 
-## Technologies Used
-
-### Frontend
-
-* React
-* Vite
-* JavaScript
-* HTML
-* CSS
-
-### DevOps & Automation
-
-* Jenkins
-* GitHub Actions
-* CI/CD Pipelines
-* Jenkins Pipeline (Declarative)
-* GitHub Workflows
-
-### Development Tools
-
-* npm
-* ESLint
-* Git
-* GitHub
+- GitHub Actions based Continuous Integration
+- GitHub Actions based Continuous Deployment
+- Artifact-based deployment workflows
+- Jenkins Declarative Pipelines
+- Dockerized Jenkins agents
+- Manual approval gates
+- Automated testing and linting
+- Secure deployment using secrets
+- Production deployment to Vercel
 
 ---
 
-## Repository Structure
+## 🏗️ Architecture
+
+```text
+                 Developer
+                     │
+                     ▼
+           Push Code to GitHub
+                     │
+                     ▼
+       ┌────────────────────────┐
+       │ GitHub Actions CI      │
+       │────────────────────────│
+       │ Checkout Code          │
+       │ Install Dependencies   │
+       │ Run ESLint             │
+       │ Run Unit Tests         │
+       │ Build React App        │
+       │ Upload Artifacts       │
+       └──────────┬─────────────┘
+                  │
+                  ▼
+       ┌────────────────────────┐
+       │ GitHub Actions CD      │
+       │────────────────────────│
+       │ Download Artifacts     │
+       │ Authenticate Vercel    │
+       │ Deploy to Production   │
+       └──────────┬─────────────┘
+                  │
+                  ▼
+             Vercel Production
+
+
+
+Alternative Deployment Flow
+
+Developer
+    │
+    ▼
+ Jenkins Pipeline
+    │
+    ├── Workspace Cleanup
+    ├── SCM Checkout
+    ├── Approval Gate
+    ├── Docker Agent
+    ├── Build
+    ├── Test
+    └── Deploy
+```
+
+---
+
+## 📂 Repository Structure
 
 ```text
 React-CICD-Setup/
+│
 ├── .github/
-│   └── workflows/               # GitHub Actions workflows
-├── public/                      # Static assets
-├── src/                         # React application source code
-├── Jenkinsfile                  # Jenkins CI/CD pipeline definition
-├── package.json                 # Project dependencies and scripts
-├── package-lock.json            # Dependency lock file
-├── vite.config.js               # Vite configuration
-├── eslint.config.js             # ESLint configuration
-├── index.html                   # Application entry point
-├── .gitignore
+│   └── workflows/
+│       ├── ci.yml
+│       └── cd.yml
+│
+├── public/
+│
+├── src/
+│   ├── __tests__/
+│   │   └── App.test.jsx
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── setupTests.js
+│
+├── Jenkinsfile
+├── eslint.config.js
+├── index.html
+├── package.json
+├── package-lock.json
+├── vite.config.js
 └── README.md
 ```
 
 ---
 
-## CI/CD Pipeline Workflow
+# 🛠 Tech Stack
 
-```text
-Developer Pushes Code
-          ↓
-     GitHub Repository
-          ↓
-GitHub Actions Triggered
-          ↓
-Dependency Installation
-          ↓
-Code Validation & Checks
-          ↓
-Application Build
-          ↓
-Jenkins Pipeline Execution
-          ↓
-Manual Approval Stage
-          ↓
-Approval Timeout Validation
-          ↓
-Deployment Ready
+## Frontend
+
+- React
+- Vite
+- JavaScript
+
+## Testing
+
+- Vitest
+- React Testing Library
+
+## Code Quality
+
+- ESLint
+
+## CI/CD
+
+- GitHub Actions
+- Jenkins
+
+## Containerization
+
+- Docker
+
+## Deployment
+
+- Vercel
+
+---
+
+# ✨ Features
+
+## Application Features
+
+- Interactive React counter application
+- Production build support
+- Automated unit tests
+
+---
+
+## DevOps Features
+
+- Automated Continuous Integration
+- Automated Continuous Deployment
+- Artifact promotion strategy
+- Secure secret handling
+- Dockerized Jenkins builds
+- Manual approval gates
+- Build validation
+- Production deployments
+- Environment separation
+
+---
+
+# 🔄 CI Pipeline (GitHub Actions)
+
+The Continuous Integration pipeline executes automatically whenever code is pushed to the `main` branch.
+
+## Workflow Steps
+
+### 1. Checkout Source Code
+
+```yaml
+uses: actions/checkout
 ```
 
----
-
-## Jenkins Pipeline Highlights
-
-The Jenkins pipeline demonstrates:
-
-* Automated pipeline execution.
-* Multi-stage workflow implementation.
-* Build automation.
-* Manual approval gate before deployment.
-* Timer-based approval handling.
-* Improved control over release processes.
+Fetches the latest version of the repository.
 
 ---
 
-## GitHub Actions Workflow
+### 2. Setup Node.js
 
-The GitHub Actions workflow automates:
-
-* Triggering pipeline execution on repository events.
-* Installing dependencies.
-* Running project validation steps.
-* Building the React application.
-* Supporting continuous integration practices.
-
----
-
-## Prerequisites
-
-Before running this project, ensure you have:
-
-* Node.js installed
-* npm installed
-* Jenkins configured
-* Git installed
-* GitHub repository access
-
----
-
-## How to Run Locally
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/Bikramjit2212/React-CICD-Setup.git
+```yaml
+uses: actions/setup-node
 ```
 
-### Navigate to the Project Directory
+Configures the Node.js runtime.
 
-```bash
-cd React-CICD-Setup
-```
+---
 
-### Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### Start the Development Server
+Installs all required packages.
+
+---
+
+### 4. Run ESLint
+
+```bash
+npm run lint
+```
+
+Ensures coding standards are maintained.
+
+---
+
+### 5. Execute Unit Tests
+
+```bash
+npm test
+```
+
+Validates application functionality.
+
+---
+
+### 6. Build Application
+
+```bash
+npm run build
+```
+
+Creates an optimized production build.
+
+---
+
+### 7. Upload Build Artifacts
+
+The generated `dist` folder is uploaded for later deployment.
+
+Benefits:
+
+- Build once
+- Deploy many
+- Ensures deployment consistency
+
+---
+
+# 🚀 CD Pipeline (GitHub Actions)
+
+The deployment workflow starts only after successful completion of the CI workflow.
+
+## Workflow Triggers
+
+### Automatic Deployment
+
+```yaml
+workflow_run
+```
+
+Deploys after CI succeeds.
+
+---
+
+### Manual Deployment
+
+```yaml
+workflow_dispatch
+```
+
+Allows on-demand deployments.
+
+---
+
+## Deployment Steps
+
+### Download Build Artifacts
+
+Retrieves previously validated artifacts.
+
+---
+
+### Authenticate with Vercel
+
+Uses GitHub Secrets.
+
+Example:
+
+```yaml
+VERCEL_TOKEN
+```
+
+---
+
+### Deploy to Production
+
+```bash
+vercel --prod
+```
+
+Publishes the application to Vercel.
+
+---
+
+# ⚙️ Jenkins Pipeline
+
+The repository also demonstrates a Jenkins Declarative Pipeline implementation.
+
+## Pipeline Stages
+
+### Workspace Cleanup
+
+```groovy
+cleanWs()
+```
+
+Prevents issues caused by leftover files.
+
+---
+
+### Source Checkout
+
+```groovy
+checkout scm
+```
+
+Retrieves source code.
+
+---
+
+### Manual Approval
+
+```groovy
+input
+```
+
+Introduces human verification before deployment.
+
+---
+
+### Docker Agent
+
+```groovy
+docker {
+    image 'node:22.11.0-alpine3.20'
+}
+```
+
+Provides isolated and reproducible builds.
+
+---
+
+### Build Stage
+
+```bash
+npm install
+npm run build
+```
+
+Generates the production build.
+
+---
+
+### Testing Stage
+
+```bash
+npm run test
+```
+
+Executes automated tests.
+
+---
+
+### Deployment Stage
+
+```bash
+vercel --prod
+```
+
+Deploys the application to production.
+
+---
+
+# 🧪 Testing
+
+Unit testing is implemented using Vitest and React Testing Library.
+
+## Test Coverage
+
+### Component Rendering
+
+Verifies that the React application renders correctly.
+
+---
+
+### Counter Behaviour
+
+Validates button interactions and state updates.
+
+Example:
+
+```text
+count is 0
+count is 1
+count is 2
+```
+
+---
+
+# 💻 Local Development Setup
+
+## Clone Repository
+
+```bash
+git clone https://github.com/Bikramjit2212/React-CICD-Setup.git
+```
+
+---
+
+## Navigate to Project
+
+```bash
+cd React-CICD-Setup
+```
+
+---
+
+## Install Dependencies
+
+```bash
+npm install
+```
+
+---
+
+## Start Development Server
 
 ```bash
 npm run dev
 ```
 
-### Build the Application
+Application runs locally.
+
+---
+
+## Run Tests
+
+```bash
+npm test
+```
+
+---
+
+## Run Linter
+
+```bash
+npm run lint
+```
+
+---
+
+## Create Production Build
 
 ```bash
 npm run build
@@ -173,64 +461,76 @@ npm run build
 
 ---
 
-## What I Learned
+## Preview Production Build
 
-Through this project, I gained practical exposure to:
-
-* Designing CI/CD workflows.
-* Building Jenkins pipelines.
-* Configuring GitHub Actions.
-* Automating software delivery processes.
-* Implementing approval gates.
-* Managing JavaScript application dependencies.
-* Integrating DevOps practices into application development.
-* Understanding deployment readiness checks.
+```bash
+npm run preview
+```
 
 ---
 
-## Use Cases
+# 🔐 Secrets Required
 
-* Learning CI/CD implementation.
-* Demonstrating DevOps pipeline skills.
-* Understanding Jenkins and GitHub Actions integration.
-* Practicing release approval workflows.
-* Preparing for DevOps interviews.
-* Building a foundation for enterprise deployment pipelines.
+The following secrets are required for deployment:
 
----
-
-## Future Improvements
-
-I plan to enhance this project by adding:
-
-* Docker containerization.
-* Automated deployment to Kubernetes.
-* SonarQube integration for code quality analysis.
-* Security scanning using Trivy.
-* Artifact storage using Nexus.
-* Deployment to AWS infrastructure.
-* Slack or email notifications for pipeline status.
+| Secret Name | Purpose |
+|------------|-----------|
+| VERCEL_TOKEN | Authenticate Vercel CLI |
+| VERCEL_ORG_ID | Vercel Organization ID |
+| VERCEL_PROJECT_ID | Target Project Identifier |
 
 ---
 
-## About This Project
+# 📈 DevOps Concepts Demonstrated
 
-This project was created as part of my transition into DevOps and Cloud Engineering. As a fresher, my focus has been on learning by building practical projects that reflect real-world software delivery workflows and automation practices.
-
-It represents my understanding of how development and operations teams collaborate to deliver applications efficiently through CI/CD pipelines.
+- Continuous Integration
+- Continuous Deployment
+- Pipeline Automation
+- Shift-Left Testing
+- Artifact Promotion
+- Deployment Gating
+- Secret Management
+- Dockerized Build Agents
+- Production Releases
+- Frontend Deployment Automation
 
 ---
 
-## Author
+# 🎯 Resume Highlights
+
+This project demonstrates hands-on experience with:
+
+- Designing CI/CD pipelines using GitHub Actions
+- Building Jenkins Declarative Pipelines
+- Implementing automated testing strategies
+- Managing deployment artifacts
+- Deploying React applications to production
+- Securing deployments using secrets
+- Using Docker for reproducible build environments
+
+---
+
+# 🔮 Future Enhancements
+
+- Add code coverage reporting
+- Integrate SonarQube for static analysis
+- Implement Slack notifications
+- Add staging environments
+- Introduce blue-green deployments
+- Deploy using Kubernetes
+- Implement Infrastructure as Code using Terraform
+
+---
+
+# 👨‍💻 Author
 
 **Bikramjit Roy**
-Aspiring DevOps & Cloud Engineer
 
-GitHub: https://github.com/Bikramjit2212
-LinkedIn: https://www.linkedin.com/in/bikramjitroy/
+DevOps & Cloud Engineering Enthusiast passionate about automation, CI/CD, cloud-native practices, and building reliable software delivery pipelines.
+
+GitHub:
+https://github.com/Bikramjit2212
 
 ---
 
-## License
-
-This project is intended for educational and portfolio purposes.
+## ⭐ If you found this project useful, consider giving it a star.
